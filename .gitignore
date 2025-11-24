@@ -1,0 +1,14 @@
+.DS_Store
+
+pycache/
+*.py[cod]
+
+backend/CMakeFiles/
+backend/CMakeCache.txt
+backend/cmake_install.cmake
+backend/Makefile
+backend/*.o
+
+backend/run_backend
+
+.vscode/

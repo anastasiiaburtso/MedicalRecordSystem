@@ -129,6 +129,30 @@ run_backend/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/build
 .PHONY : run_backend/fast
 
+Doctor.o: Doctor.cpp.o
+.PHONY : Doctor.o
+
+# target to build an object file
+Doctor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Doctor.cpp.o
+.PHONY : Doctor.cpp.o
+
+Doctor.i: Doctor.cpp.i
+.PHONY : Doctor.i
+
+# target to preprocess a source file
+Doctor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Doctor.cpp.i
+.PHONY : Doctor.cpp.i
+
+Doctor.s: Doctor.cpp.s
+.PHONY : Doctor.s
+
+# target to generate assembly for a file
+Doctor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Doctor.cpp.s
+.PHONY : Doctor.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... run_backend"
+	@echo "... Doctor.o"
+	@echo "... Doctor.i"
+	@echo "... Doctor.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

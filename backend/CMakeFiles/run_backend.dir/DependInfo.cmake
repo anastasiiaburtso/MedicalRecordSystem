@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/apple/Desktop/MedicalRecordSystem/backend/Appointment.cpp" "CMakeFiles/run_backend.dir/Appointment.cpp.o" "gcc" "CMakeFiles/run_backend.dir/Appointment.cpp.o.d"
   "/Users/apple/Desktop/MedicalRecordSystem/backend/Doctor.cpp" "CMakeFiles/run_backend.dir/Doctor.cpp.o" "gcc" "CMakeFiles/run_backend.dir/Doctor.cpp.o.d"
   "/Users/apple/Desktop/MedicalRecordSystem/backend/Patient.cpp" "CMakeFiles/run_backend.dir/Patient.cpp.o" "gcc" "CMakeFiles/run_backend.dir/Patient.cpp.o.d"
+  "/Users/apple/Desktop/MedicalRecordSystem/backend/Prescription.cpp" "CMakeFiles/run_backend.dir/Prescription.cpp.o" "gcc" "CMakeFiles/run_backend.dir/Prescription.cpp.o.d"
   "/Users/apple/Desktop/MedicalRecordSystem/backend/main.cpp" "CMakeFiles/run_backend.dir/main.cpp.o" "gcc" "CMakeFiles/run_backend.dir/main.cpp.o.d"
   )
 

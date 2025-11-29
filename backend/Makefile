@@ -201,6 +201,30 @@ Patient.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Patient.cpp.s
 .PHONY : Patient.cpp.s
 
+Prescription.o: Prescription.cpp.o
+.PHONY : Prescription.o
+
+# target to build an object file
+Prescription.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Prescription.cpp.o
+.PHONY : Prescription.cpp.o
+
+Prescription.i: Prescription.cpp.i
+.PHONY : Prescription.i
+
+# target to preprocess a source file
+Prescription.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Prescription.cpp.i
+.PHONY : Prescription.cpp.i
+
+Prescription.s: Prescription.cpp.s
+.PHONY : Prescription.s
+
+# target to generate assembly for a file
+Prescription.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Prescription.cpp.s
+.PHONY : Prescription.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -243,6 +267,9 @@ help:
 	@echo "... Patient.o"
 	@echo "... Patient.i"
 	@echo "... Patient.s"
+	@echo "... Prescription.o"
+	@echo "... Prescription.i"
+	@echo "... Prescription.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

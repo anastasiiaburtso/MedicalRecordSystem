@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Doctor.h" 
+#include "Patient.h"
+#include "Appointment.h"
 
 int main() {
     std::cout << "    Система запускається    " << std::endl;
@@ -14,6 +16,14 @@ int main() {
     // Створення другого лікаря
     Doctor doc2(2, "Джон Ватсон", "Хірург");
     std::cout << doc2.getInfo() << std::endl;
+
+    Patient pat1(100, "Марк Грейсон", "Бейкер-стріт 221б" );
+    std::cout << pat1.getInfo() << std::endl;
+
+    std::cout << "\n Створення запису... " << std::endl;
+
+    Appointment app1(doc1, pat1, "2023-11-01");
+    std::cout << app1.getDetails() << std::endl;
 
     return 0;
 }

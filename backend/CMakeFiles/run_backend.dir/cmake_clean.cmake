@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/run_backend.dir/Appointment.cpp.o"
+  "CMakeFiles/run_backend.dir/Appointment.cpp.o.d"
   "CMakeFiles/run_backend.dir/Doctor.cpp.o"
   "CMakeFiles/run_backend.dir/Doctor.cpp.o.d"
+  "CMakeFiles/run_backend.dir/Patient.cpp.o"
+  "CMakeFiles/run_backend.dir/Patient.cpp.o.d"
   "CMakeFiles/run_backend.dir/main.cpp.o"
   "CMakeFiles/run_backend.dir/main.cpp.o.d"
   "run_backend"

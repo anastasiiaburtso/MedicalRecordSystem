@@ -85,12 +85,12 @@ clean: CMakeFiles/run_backend.dir/clean
 CMakeFiles/run_backend.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles --progress-num=1,2,3 "Built target run_backend"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles --progress-num=1,2,3,4,5 "Built target run_backend"
 .PHONY : CMakeFiles/run_backend.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/run_backend.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_backend.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles 0
 .PHONY : CMakeFiles/run_backend.dir/rule
@@ -102,7 +102,7 @@ run_backend: CMakeFiles/run_backend.dir/rule
 # codegen rule for target.
 CMakeFiles/run_backend.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles --progress-num=1,2,3 "Finished codegen for target run_backend"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/apple/Desktop/MedicalRecordSystem/backend/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target run_backend"
 .PHONY : CMakeFiles/run_backend.dir/codegen
 
 # clean rule for target.

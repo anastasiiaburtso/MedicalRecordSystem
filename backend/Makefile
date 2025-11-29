@@ -129,6 +129,30 @@ run_backend/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/build
 .PHONY : run_backend/fast
 
+Appointment.o: Appointment.cpp.o
+.PHONY : Appointment.o
+
+# target to build an object file
+Appointment.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Appointment.cpp.o
+.PHONY : Appointment.cpp.o
+
+Appointment.i: Appointment.cpp.i
+.PHONY : Appointment.i
+
+# target to preprocess a source file
+Appointment.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Appointment.cpp.i
+.PHONY : Appointment.cpp.i
+
+Appointment.s: Appointment.cpp.s
+.PHONY : Appointment.s
+
+# target to generate assembly for a file
+Appointment.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Appointment.cpp.s
+.PHONY : Appointment.cpp.s
+
 Doctor.o: Doctor.cpp.o
 .PHONY : Doctor.o
 
@@ -152,6 +176,30 @@ Doctor.s: Doctor.cpp.s
 Doctor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Doctor.cpp.s
 .PHONY : Doctor.cpp.s
+
+Patient.o: Patient.cpp.o
+.PHONY : Patient.o
+
+# target to build an object file
+Patient.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Patient.cpp.o
+.PHONY : Patient.cpp.o
+
+Patient.i: Patient.cpp.i
+.PHONY : Patient.i
+
+# target to preprocess a source file
+Patient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Patient.cpp.i
+.PHONY : Patient.cpp.i
+
+Patient.s: Patient.cpp.s
+.PHONY : Patient.s
+
+# target to generate assembly for a file
+Patient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_backend.dir/build.make CMakeFiles/run_backend.dir/Patient.cpp.s
+.PHONY : Patient.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -186,9 +234,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... run_backend"
+	@echo "... Appointment.o"
+	@echo "... Appointment.i"
+	@echo "... Appointment.s"
 	@echo "... Doctor.o"
 	@echo "... Doctor.i"
 	@echo "... Doctor.s"
+	@echo "... Patient.o"
+	@echo "... Patient.i"
+	@echo "... Patient.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

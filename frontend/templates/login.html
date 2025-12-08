@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід у систему</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; }
+        .card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; width: 350px; }
+        h1 { color: #333; margin-bottom: 30px; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.3s; color: white; }
+        .btn-doc { background-color: #3498db; }
+        .btn-doc:hover { background-color: #2980b9; }
+        .btn-pat { background-color: #2ecc71; }
+        .btn-pat:hover { background-color: #27ae60; }
+        input { width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .hidden { display: none; }
+    </style>
+    <script>
+        function showPatientInput() {
+            document.getElementById('patient-form').classList.remove('hidden');
+            document.getElementById('main-buttons').classList.add('hidden');
+        }
+    </script>
+</head>
+<body>
+    <div class="card">
+        <h1>🏥 MedSystem</h1>
+        
+        <div id="main-buttons">
+            <p>Виберіть спосіб входу:</p>
+            <form action="/" method="POST">
+                <input type="hidden" name="role" value="doctor">
+                <input type="hidden" name="name" value="Dr. House"> <button type="submit" class="btn btn-doc">👨‍⚕️ Увійти як Лікар</button>
+            </form>
+
+            <button onclick="showPatientInput()" class="btn btn-pat">👤 Увійти як Пацієнт</button>
+        </div>
+
+        <div id="patient-form" class="hidden">
+            <p>Введіть Ваше ім'я:</p>
+            <form action="/" method="POST">
+                <input type="hidden" name="role" value="patient">
+                <input type="text" name="name" placeholder="Наприклад: Fiona" required>
+                <button type="submit" class="btn btn-pat">Увійти</button>
+            </form>
+            <br>
+            <a href="/" style="color: #999; text-decoration: none;">Назад</a>
+        </div>
+    </div>
+</body>
+</html>

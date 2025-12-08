@@ -2,21 +2,21 @@
 #define APPOINTMENT_H
 
 #include <string>
+#include "MedicalRecord.h"
 #include "Doctor.h"
 #include "Patient.h"
 
-class Appointment {
+class Appointment : public MedicalRecord {
     private:
     std::string date;
     Doctor doctor;
     Patient patient;
 
     public:
-    // Конструктор
     Appointment(Doctor d, Patient p, std::string visitDate);
 
-    // Метод, щоб отримати деталі візиту
-    std::string getDetails();
+    std::string getDetails() override;
+    std::string getDate() override;
 };
 
 #endif

@@ -2,21 +2,23 @@
 #define PRESCRIPTION_H
 
 #include <string>
+#include "MedicalRecord.h"
 #include "Doctor.h"
 #include "Patient.h"
 
-class Prescription {
-private:
-    Doctor doctor;    // Хто виписав
-    Patient patient;  // Кому виписали
-    std::string medication; // Назва ліків 
-    std::string dosage;     // Дозування 
-public:
-    // Конструктор
-    Prescription(Doctor d, Patient p, std::string med, std::string dose);
+class Prescription : public MedicalRecord {
+    private:
+    Doctor doctor;    
+    Patient patient;  
+    std::string medication; 
+    std::string dosage;     
+    std::string date;
+    
+    public:
+    Prescription(Doctor d, Patient p, std::string med, std::string dose, std::string dateString);
 
-    // Метод для друку рецепта
-    std::string getPrescriptionDetails();
+    std::string getDetails() override;
+    std::string getDate() override;
 };
 
 #endif

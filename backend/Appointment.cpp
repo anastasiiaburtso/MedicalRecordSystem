@@ -14,3 +14,7 @@ std::string Appointment::getDetails() {
            "Дата: " + date + "\n" + 
            "-------------------------";
 }
+
+std::string Appointment::getDate() {
+    return date;
+}

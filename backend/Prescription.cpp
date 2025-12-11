@@ -5,12 +5,8 @@ Prescription::Prescription(Doctor d, Patient p, std::string med, std::string dos
 }
 
 std::string Prescription::getDetails() {
-    return "РЕЦЕПТ (" + date + "):\n" + 
-           doctor.getInfo() + "\n" + 
-           patient.getInfo() + "\n" +
-           "Ліки: " + medication + " " + dosage + "\n";
+    return date + "|" + doctor.getName() + "|Рецепт|" + medication + " " + dosage;
 }
-
 std::string Prescription::getDate() {
     return date;
 }

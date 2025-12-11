@@ -426,4 +426,5 @@ CMakeFiles/run_backend.dir/main.cpp.o: \
   /Users/apple/Desktop/MedicalRecordSystem/backend/Appointment.h \
   /Users/apple/Desktop/MedicalRecordSystem/backend/Doctor.h \
   /Users/apple/Desktop/MedicalRecordSystem/backend/Patient.h \
-  /Users/apple/Desktop/MedicalRecordSystem/backend/Prescription.h
+  /Users/apple/Desktop/MedicalRecordSystem/backend/Prescription.h \
+  /Users/apple/Desktop/MedicalRecordSystem/backend/Referral.h

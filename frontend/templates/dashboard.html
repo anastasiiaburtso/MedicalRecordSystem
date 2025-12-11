@@ -2,21 +2,126 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Особистий кабінет</title>
+    <title>Кабінет | Медична Система</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f6f9; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
-        .logout { color: #e74c3c; text-decoration: none; font-weight: bold; }
+        /* ЗАГАЛЬНИЙ СТИЛЬ */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f4f4; 
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+            padding: 20px; 
+            color: #333;
+            font-size: 16px; 
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d32f2f; /* Червона шапка */
+        }
         
-        .add-box { background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #2196f3; }
-        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px; }
-        button { padding: 8px 15px; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        /* ШАПКА */
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 20px; 
+            margin-bottom: 30px; 
+        }
+        .header h2 { margin: 0; color: #d32f2f; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+        .user-info { font-size: 18px; font-weight: bold; color: #555; }
         
-        .output { background: #2d3436; color: #55efc4; padding: 20px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; }
-        .tag { display: inline-block; padding: 5px 10px; border-radius: 15px; font-size: 0.8em; color: white; }
-        .doc-tag { background: #3498db; }
-        .pat-tag { background: #2ecc71; }
+        /* СЕКЦІЇ */
+        .section { 
+            background: #fff; 
+            border: 1px solid #e0e0e0; 
+            padding: 30px; 
+            margin-bottom: 30px; 
+            border-radius: 6px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        h3 { 
+            margin-top: 0; 
+            color: #333; 
+            font-size: 20px; 
+            border-left: 5px solid #d32f2f; 
+            padding-left: 15px; 
+            margin-bottom: 20px;
+        }
+        
+        /* КНОПКИ */
+        .btn { 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 4px; 
+            color: white; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-blue { background: #1976d2; } 
+        .btn-blue:hover { background: #1565c0; }
+        
+        .btn-green { background: #388e3c; } 
+        .btn-green:hover { background: #2e7d32; }
+        
+        .btn-gray { background: #757575; font-size: 14px; padding: 8px 16px; }
+        .btn-gray:hover { background: #616161; }
+        
+        .btn-red { background: white; color: #d32f2f; border: 2px solid #d32f2f; }
+        .btn-red:hover { background: #ffebee; }
+
+        /* ПОЛЯ ВВОДУ */
+        input, select { 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus { border-color: #d32f2f; outline: none; }
+        
+        /* ЖИВИЙ ПОШУК */
+        .search-wrapper { position: relative; width: 100%; }
+        #searchInput { width: 100%; border: 2px solid #1976d2; }
+        #searchResults { 
+            position: absolute; top: 100%; left: 0; right: 0; 
+            background: white; border: 1px solid #ddd; border-top: none; 
+            z-index: 100; max-height: 250px; overflow-y: auto; display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .search-item { padding: 12px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 16px; }
+        .search-item:hover { background-color: #e3f2fd; }
+        
+        /* ТАБЛИЦЯ */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+        th, td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f9f9f9; color: #d32f2f; font-weight: bold; text-transform: uppercase; font-size: 14px; border-bottom: 2px solid #d32f2f; }
+        tr:hover { background-color: #fffafa; }
+        
+        /* КАРТКА ЛІКАРЯ (ЗЕЛЕНА) */
+        .doc-card { 
+            border: 2px solid #388e3c; 
+            padding: 25px; 
+            background: #f1f8e9; 
+            border-radius: 8px; 
+            margin-top: 20px; 
+        }
+
+        /* ПОВІДОМЛЕННЯ ПРО ПОМИЛКУ */
+        .error-msg { 
+            background: #ffebee; color: #c62828; 
+            padding: 15px; border-radius: 4px; margin-bottom: 20px; 
+            border-left: 5px solid #c62828; font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -24,34 +129,237 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>Вітаємо, {{ name }}!</h2>
-            <span class="tag {{ 'doc-tag' if role == 'doctor' else 'pat-tag' }}">
-                {{ 'Лікар 👨‍⚕️' if role == 'doctor' else 'Пацієнт 👤' }}
-            </span>
+            <h2>🏥 Медична Система</h2>
+            <div class="user-info" style="margin-top: 5px;">
+                {% if role == 'doctor' %}👨‍⚕️ Лікар: {{ name }}
+                {% else %}👤 Пацієнт: {{ name }}
+                {% endif %}
+            </div>
         </div>
-        <a href="/logout" class="logout">Вийти 🚪</a>
+        <div>
+            <a href="/logout" class="btn btn-red">Вийти 🚪</a>
+        </div>
     </div>
 
     {% if role == 'doctor' %}
-    <div class="add-box">
-        <h3>➕ Додати запис пацієнту</h3>
-        <form action="/add" method="POST">
-            <input type="text" name="patient" placeholder="Ім'я пацієнта" required>
-            <input type="date" name="date" required>
-            <button type="submit">Записати</button>
+    <div class="section">
+        <h3>🔍 Пошук пацієнта</h3>
+        
+        {% if error %}
+            <div class="error-msg">⚠️ {{ error }}</div>
+        {% endif %}
+
+        <p style="color:#666; margin-bottom:15px;">Введіть прізвище та ім'я пацієнта, щоб отримати доступ до медкарти.</p>
+        
+        <form action="/dashboard" method="GET" style="display:flex; gap:10px;">
+            <input type="text" name="patient_search" placeholder="Прізвище та Ім'я пацієнта..." style="width:60%;" value="{{ patient_search }}" required>
+            <button type="submit" class="btn btn-blue">Знайти картку 🔎</button>
         </form>
+        
+        {% if patient_search and not error %}
+            <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
+            <h4 style="font-size:20px; color:#d32f2f; margin-bottom: 20px;">👤 Пацієнт: {{ patient_search }}</h4>
+            
+            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom: 30px;">
+                <form action="/add" method="POST" style="flex:1; background:#fffafa; padding:20px; border:1px solid #ffcdd2; border-radius:6px;">
+                    <input type="hidden" name="type" value="prescription">
+                    <input type="hidden" name="patient" value="{{ patient_search }}">
+                    <b style="color:#d32f2f; font-size:18px;">💊 Виписати рецепт</b><br><br>
+                    <input type="text" name="med" placeholder="Назва ліків та дозування" required style="width:100%; margin-bottom:10px;">
+                    <button type="submit" class="btn btn-green" style="width:100%">Зберегти ✅</button>
+                </form>
+                
+                <form action="/add" method="POST" style="flex:1; background:#e3f2fd; padding:20px; border:1px solid #bbdefb; border-radius:6px;">
+                    <input type="hidden" name="type" value="referral">
+                    <input type="hidden" name="patient" value="{{ patient_search }}">
+                    <b style="color:#1565c0; font-size:18px;">➡️ Дати направлення</b><br><br>
+                    <input type="text" name="target_spec" placeholder="Спеціальність (напр. Хірург)" required style="width:100%; margin-bottom:10px;">
+                    <button type="submit" class="btn btn-blue" style="width:100%">Направити ➜</button>
+                </form>
+                
+                <div style="flex:1; background:#f1f8e9; padding:20px; border:1px solid #c8e6c9; border-radius:6px;">
+                    <b style="color:#2e7d32; font-size:18px;">📅 Записати до себе</b><br><br>
+                    
+                    <form id="docApptForm" action="/dashboard" method="GET">
+                        <input type="hidden" name="patient_search" value="{{ patient_search }}">
+                        <input type="date" name="date" value="{{ selected_date }}" min="{{ today }}" 
+                               onchange="document.getElementById('docApptForm').submit()" style="width:100%; margin-bottom:10px;">
+                    </form>
+                    
+                    <form action="/add" method="POST">
+                        <input type="hidden" name="type" value="appointment">
+                        <input type="hidden" name="doctor" value="{{ name }}">
+                        <input type="hidden" name="patient" value="{{ patient_search }}">
+                        <input type="hidden" name="date" value="{{ selected_date }}">
+                        
+                        {% if current_doc.available_slots %}
+                            <select name="time" style="width:100%; margin-bottom:10px;">
+                                {% for slot in current_doc.available_slots %}
+                                    <option value="{{ slot }}">{{ slot }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-green" style="width:100%;">Записати ✅</button>
+                        {% else %}
+                            <div style="color:#c62828; font-weight:bold; margin-top:10px; text-align:center;">
+                                {% if is_weekend %}🏖️ Вихідний{% else %}❌ Немає місць{% endif %}
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>📂 Історія хвороби пацієнта</h3>
+                    <div>
+                        <span style="color:#777; margin-right:10px;">Сортувати:</span>
+                        <a href="{{ url_for('dashboard', patient_search=patient_search, sort='asc') }}" style="text-decoration:none;"><button class="btn btn-gray">⬆️ Старі</button></a>
+                        <a href="{{ url_for('dashboard', patient_search=patient_search, sort='desc') }}" style="text-decoration:none;"><button class="btn btn-gray">⬇️ Нові</button></a>
+                    </div>
+                </div>
+                {% if records %}
+                <table>
+                    <thead><tr><th width="15%">Дата</th><th width="25%">Лікар</th><th width="15%">Тип запису</th><th>Деталі / Призначення</th></tr></thead>
+                    <tbody>
+                        {% for rec in records %}
+                        <tr>
+                            <td>{{ rec.date }}</td>
+                            <td>{{ rec.doctor }}</td>
+                            <td style="color:#d32f2f; font-weight:bold;">{{ rec.type }}</td>
+                            <td>{{ rec.details }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %} 
+                    <div style="text-align:center; padding:30px; color:#999; border: 2px dashed #eee; border-radius:6px;">Історія записів порожня.</div> 
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
     {% endif %}
 
-    <h3>📂 Медична картка:</h3>
-    <div class="output">
-        {% if cpp_output %}
-            {{ cpp_output }}
+    {% if role == 'patient' %}
+    <div class="section">
+        <h3>🔍 Запис на прийом</h3>
+        
+        {% if not doctor_card %}
+        <form id="selectDoctorForm" action="/dashboard" method="GET">
+            <div class="search-wrapper">
+                <label style="font-weight:bold; display:block; margin-bottom:10px; color:#555;">Знайдіть лікаря:</label>
+                <input type="text" id="searchInput" placeholder="Почніть вводити прізвище або фах (напр. Сімейний)..." autocomplete="off" style="width:100%; padding:15px;">
+                <input type="hidden" id="realDoctorInput" name="doctor_select">
+                <div id="searchResults"></div>
+            </div>
+        </form>
+        <p style="color:#777; margin-top:15px;">ℹ️ Введіть перші літери, щоб побачити список доступних лікарів.</p>
+        
         {% else %}
-            Записів поки що немає.
+        <div class="doc-card">
+            <div style="margin-bottom: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="color:#2e7d32; margin:0;">👨‍⚕️ {{ doctor_card.name }}</h2>
+                    <a href="/dashboard" style="color:#777; text-decoration:none; font-weight:bold;">✕ Знайти іншого</a>
+                </div>
+                <p style="font-size:18px; color:#555; margin-top:5px;">{{ doctor_card.spec }} | 🕒 Зміна: {{ doctor_card.shift }}</p>
+            </div>
+            
+            <hr style="border:0; border-top:1px solid #a5d6a7; margin:20px 0;">
+
+            <div style="display:flex; gap: 40px; align-items:flex-end; flex-wrap:wrap;">
+                
+                <form id="updateDateForm" action="/dashboard" method="GET" style="flex:1;">
+                    <input type="hidden" name="doctor_select" value="{{ doctor_card.name }}">
+                    <label style="font-weight:bold; color:#2e7d32;">1. Оберіть дату прийому:</label><br>
+                    <input type="date" name="date" value="{{ selected_date }}" min="{{ today }}" 
+                           onchange="document.getElementById('updateDateForm').submit()" 
+                           style="width:100%; padding:15px; margin-top:10px; border:2px solid #388e3c; border-radius:4px; font-weight:bold; color:#333;">
+                </form>
+
+                <form action="/add" method="POST" style="flex:1;">
+                    <input type="hidden" name="type" value="appointment">
+                    <input type="hidden" name="doctor" value="{{ doctor_card.name }}">
+                    <input type="hidden" name="date" value="{{ selected_date }}">
+                    
+                    <label style="font-weight:bold; color:#2e7d32;">2. Оберіть вільний час:</label><br>
+                    {% if doctor_card.available_slots %}
+                        <div style="display:flex; gap:15px; align-items:center;">
+                            <select name="time" style="width:100%; padding:15px; margin-top:10px; border:2px solid #388e3c; border-radius:4px; font-size:16px;">
+                                {% for slot in doctor_card.available_slots %}
+                                    <option value="{{ slot }}">{{ slot }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-green" style="height:52px; margin-top:10px; min-width:150px;">Записатися ✅</button>
+                        </div>
+                    {% else %}
+                        <div style="padding:15px; background:#ffebee; color:#c62828; border:1px solid #ef9a9a; border-radius:4px; margin-top:10px; text-align:center; font-weight:bold;">
+                            {% if is_weekend %} 🏖️ У цей день вихідний {% else %} ❌ Вільних місць немає {% endif %}
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
         {% endif %}
     </div>
+
+    <div class="section">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3>📂 Моя медична картка</h3>
+            <div>
+                <a href="{{ url_for('dashboard', doctor_select=request.args.get('doctor_select'), sort='asc') }}" style="text-decoration:none;"><button class="btn btn-gray">⬆️ Старі</button></a>
+                <a href="{{ url_for('dashboard', doctor_select=request.args.get('doctor_select'), sort='desc') }}" style="text-decoration:none;"><button class="btn btn-gray">⬇️ Нові</button></a>
+            </div>
+        </div>
+        {% if records %}
+        <table>
+            <thead><tr><th width="15%">Дата</th><th width="25%">Лікар</th><th width="15%">Тип запису</th><th>Деталі</th></tr></thead>
+            <tbody>
+                {% for rec in records %}
+                <tr>
+                    <td>{{ rec.date }}</td>
+                    <td>{{ rec.doctor }}</td>
+                    <td style="font-weight:bold; color: #1976d2;">{{ rec.type }}</td>
+                    <td>{{ rec.details }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %} 
+            <div style="text-align:center; padding:30px; color:#999; border: 2px dashed #eee; border-radius:6px;">Записів поки що немає.</div> 
+        {% endif %}
+    </div>
+    {% endif %}
+
 </div>
+
+<script>
+    // JS для Живого Пошуку (Без змін логіки, тільки стиль)
+    const doctorsData = {{ all_doctors | tojson }};
+    const searchInput = document.getElementById('searchInput');
+    const resultsDiv = document.getElementById('searchResults');
+    const form = document.getElementById('selectDoctorForm');
+    
+    if(searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const val = this.value.toLowerCase();
+            resultsDiv.innerHTML = '';
+            if(val.length < 1) { resultsDiv.style.display='none'; return; }
+            const filtered = doctorsData.filter(d => d.name.toLowerCase().includes(val) || d.spec.toLowerCase().includes(val));
+            if(filtered.length){
+                resultsDiv.style.display='block';
+                filtered.forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'search-item';
+                    // Додаємо іконку лікаря для краси
+                    div.innerHTML = `👨‍⚕️ <b>${d.name}</b> <span style="color:#666">(${d.spec})</span>`;
+                    div.onclick = () => { document.getElementById('realDoctorInput').value=d.name; form.submit(); };
+                    resultsDiv.appendChild(div);
+                });
+            } else { resultsDiv.style.display='none'; }
+        });
+        document.addEventListener('click', function(e) { if (e.target !== searchInput) resultsDiv.style.display = 'none'; });
+    }
+</script>
 
 </body>
 </html>

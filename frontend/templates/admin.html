@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель Адміністратора</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #2c3e50; padding: 20px; color: white; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; color: #333; }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        h2 { margin: 0; color: #e74c3c; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f8f9fa; color: #333; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        .role-doc { color: #2980b9; font-weight: bold; }
+        .role-pat { color: #27ae60; font-weight: bold; }
+        
+        .filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .btn { padding: 8px 15px; border: none; border-radius: 4px; color: white; cursor: pointer; text-decoration: none; font-size: 0.9em; }
+        .btn-gray { background: #95a5a6; }
+        .btn-blue { background: #3498db; }
+        .btn-green { background: #2ecc71; }
+        .btn-red { background: #e74c3c; }
+
+        input[type="text"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>🕵️ Панель Адміністратора</h2>
+        <a href="/logout" class="btn btn-red">Вийти</a>
+    </div>
+
+    <div class="filters">
+        <form action="/admin" method="GET" style="display:flex; gap:10px;">
+            <input type="text" name="search" placeholder="Пошук по імені..." value="{{ request.args.get('search', '') }}">
+            <button type="submit" class="btn btn-gray">🔍</button>
+        </form>
+        
+        <a href="/admin?filter=doctors" class="btn btn-blue">Тільки Лікарі</a>
+        <a href="/admin?filter=patients" class="btn btn-green">Тільки Пацієнти</a>
+        <a href="/admin?sort=alpha" class="btn btn-gray">🔤 Сортувати А-Я</a>
+        <a href="/admin" class="btn btn-gray">Скинути</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID / №</th>
+                <th>Роль</th>
+                <th>Ім'я (Логін)</th>
+                <th>Пароль</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if user.role == 'doctor' %}
+                        <span class="role-doc">Лікар</span>
+                    {% else %}
+                        <span class="role-pat">Пацієнт</span>
+                    {% endif %}
+                </td>
+                <td>{{ user.name }}</td>
+                <td style="font-family: monospace; background: #eee; padding: 5px;">{{ user.password }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" style="text-align:center; color:gray;">Користувачів не знайдено</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

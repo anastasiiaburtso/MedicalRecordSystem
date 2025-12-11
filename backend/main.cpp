@@ -9,6 +9,7 @@
 #include "Prescription.h"
 #include "Doctor.h"
 #include "Patient.h"
+#include "Referral.h"
 
 // Допоміжна функція для розбиття рядка
 std::vector<std::string> split(const std::string &s, char delimiter) {
@@ -36,14 +37,18 @@ int main(int argc, char* argv[]) {
     else if (command == "history") {
         std::vector<MedicalRecord*> history;
         std::string filterName = "";
-        bool sortNeeded = false;
+        std::string sortOrder = "none"; // ЗМІНА: тепер це рядок, а не bool
 
-        // 2. Розумна перевірка аргументів (шукаємо ім'я та слово "sort")
+        // 2. Розумна перевірка аргументів (шукаємо ім'я та тип сортування)
         for (int i = 2; i < argc; ++i) {
             std::string arg = argv[i];
-            if (arg == "sort") {
-                sortNeeded = true;
-            } else if (arg != "all") {
+            if (arg == "sort_asc") {
+                sortOrder = "asc"; // Зростання (старі -> нові)
+            } else if (arg == "sort_desc") {
+                sortOrder = "desc"; // Спадання (нові -> старі)
+            } else if (arg == "sort") {
+                sortOrder = "asc"; // Для сумісності залишаємо як asc
+            } else if (arg != "all" && arg != "none") {
                 filterName = arg;
             }
         }
@@ -56,7 +61,7 @@ int main(int argc, char* argv[]) {
                 std::vector<std::string> data = split(line, '|');
                 if (data.empty()) continue;
 
-                // Фільтр за ім'ям пацієнта (data[2])
+                // Фільтр за ім'ям пацієнта 
                 if (!filterName.empty() && data[2] != filterName) {
                     continue; 
                 }
@@ -65,36 +70,36 @@ int main(int argc, char* argv[]) {
                 Doctor tempDoc(1, data[1], "General"); 
                 Patient tempPat(100, data[2], "Unknown Address");
 
-                // 4. Створення записів (З урахуванням ДАТИ)
                 if (data[0] == "A" && data.size() >= 4) {
-                    // Формат: A|Doctor|Patient|Date
                     history.push_back(new Appointment(tempDoc, tempPat, data[3]));
                 }
-                else if (data[0] == "P") {
-                    // Для рецептів ми очікуємо дату в кінці
-                    // Формат: P|Doctor|Patient|Drug|Dose|Date
+                else if (data[0] == "P" && data.size() >= 5) {
                     std::string pDate = (data.size() >= 6) ? data[5] : "0000-00-00";
-                    
-                    if (data.size() >= 5) {
-                        history.push_back(new Prescription(tempDoc, tempPat, data[3], data[4], pDate));
-                    }
+                    history.push_back(new Prescription(tempDoc, tempPat, data[3], data[4], pDate));
+                }
+                // НАПРАВЛЕННЯ (R)
+                else if (data[0] == "R" && data.size() >= 5) {
+                    history.push_back(new Referral(tempDoc, tempPat, data[3], data[4]));
                 }
             }
             file.close();
         }
 
-        // 5. СОРТУВАННЯ (Якщо попросили)
-        if (sortNeeded) {
+        // 5. СОРТУВАННЯ (ОНОВЛЕНО)
+        if (sortOrder == "asc") {
             std::sort(history.begin(), history.end(), [](MedicalRecord* a, MedicalRecord* b) {
-                return a->getDate() < b->getDate(); // Порівняння дат
+                return a->getDate() < b->getDate(); // Від старих до нових
+            });
+        } else if (sortOrder == "desc") {
+            std::sort(history.begin(), history.end(), [](MedicalRecord* a, MedicalRecord* b) {
+                return a->getDate() > b->getDate(); // Від нових до старих
             });
         }
 
         // 6. Вивід результату
         if (history.empty()) {
             std::cout << "Записів не знайдено." << std::endl;
-        } else {
-            std::cout << "--- RESPONSE START ---" << std::endl; 
+        } else { 
             for (MedicalRecord* rec : history) {
                 std::cout << rec->getDetails() << std::endl;
             }
@@ -104,16 +109,37 @@ int main(int argc, char* argv[]) {
         for (MedicalRecord* rec : history) delete rec;
     }
     else if (command == "add") {
-        if (argc < 5) {
-            std::cout << "Error: Usage ./run_backend add <Doctor> <Patient> <Date>" << std::endl;
-            return 1;
-        }
-        // Запис у кінець файлу
         std::ofstream file("database.txt", std::ios::app);
+        
         if (file.is_open()) {
-            file << "A|" << argv[2] << "|" << argv[3] << "|" << argv[4] << "\n";
+            std::string type = argv[2];
+
+            // 1. НАПРАВЛЕННЯ (R)
+            if (type == "R") {
+                if (argc >= 7) {
+                    file << "R|" << argv[3] << "|" << argv[4] << "|" << argv[5] << "|" << argv[6] << "\n";
+                }
+            } 
+            // 2. РЕЦЕПТ (P) - НОВЕ!
+            else if (type == "P") {
+                if (argc >= 8) {
+                    file << "P|" << argv[3] << "|" << argv[4] << "|" << argv[5] << "|" << argv[6]<< "|" << argv[7] << "\n";
+                }
+                else {
+                    std::cout << "Error: Not enough args for Prescription" << std::endl;
+                }
+            }
+            // 3. ЗВИЧАЙНИЙ ЗАПИС (A)
+            else {
+                if (argc >= 5) {
+                    file << "A|" << argv[2] << "|" << argv[3] << "|" << argv[4] << "\n";
+                }
+            }
+            
             file.close();
             std::cout << "Success: Saved" << std::endl;
+        } else {
+            std::cout << "Error: Could not open file" << std::endl;
         }
     }
     else {

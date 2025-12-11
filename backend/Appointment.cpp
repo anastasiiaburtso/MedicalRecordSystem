@@ -6,13 +6,8 @@ Appointment::Appointment(Doctor d, Patient p, std::string visitDate)
     : doctor(d), patient(p), date(visitDate) {
 }
 
-// Реалізація методу
 std::string Appointment::getDetails() {
-    return "Запис на прийом:\n" + 
-           doctor.getInfo() + "\n" + 
-           patient.getInfo() + "\n" +
-           "Дата: " + date + "\n" + 
-           "-------------------------";
+    return date + "|" + doctor.getName() + "|Запис|Прийом у лікаря";
 }
 
 std::string Appointment::getDate() {

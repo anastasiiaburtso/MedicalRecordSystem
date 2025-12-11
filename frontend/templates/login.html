@@ -2,50 +2,216 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Вхід у систему</title>
+    <title>Вхід | Медична Система</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; }
-        .card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; width: 350px; }
-        h1 { color: #333; margin-bottom: 30px; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.3s; color: white; }
-        .btn-doc { background-color: #3498db; }
-        .btn-doc:hover { background-color: #2980b9; }
-        .btn-pat { background-color: #2ecc71; }
-        .btn-pat:hover { background-color: #27ae60; }
-        input { width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        .hidden { display: none; }
+        /* ОСНОВНИЙ СТИЛЬ: Червоно-біла медицина */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f4f4; /* Світло-сірий фон, щоб виділити білу картку */
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin: 0; 
+            color: #333;
+        }
+
+        .card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            width: 420px; 
+            text-align: center; 
+            border-top: 5px solid #d32f2f; /* Червона "шапка" */
+        }
+
+        h1 { 
+            margin-bottom: 25px; 
+            color: #d32f2f; /* Медичний червоний */
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* ВКЛАДКИ */
+        .tabs { display: flex; justify-content: space-around; margin-bottom: 25px; border-bottom: 2px solid #eee; }
+        .tab-btn { 
+            background: none; 
+            border: none; 
+            padding: 12px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            color: #777; 
+            width: 50%; 
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover { color: #d32f2f; background-color: #fffafa; }
+        .tab-btn.active { 
+            color: #d32f2f; 
+            border-bottom: 3px solid #d32f2f; 
+            font-weight: bold; 
+        }
+        
+        /* ПОЛЯ ВВОДУ */
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            box-sizing: border-box; /* Щоб padding не ламав ширину */
+            font-size: 16px; /* Вимога лектора: читабельний шрифт */
+        }
+        input:focus { border-color: #d32f2f; outline: none; }
+
+        /* КНОПКИ */
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 15px; 
+            border: none; 
+            border-radius: 4px; 
+            color: white; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary { background-color: #d32f2f; }
+        .btn-primary:hover { background-color: #b71c1c; }
+        
+        /* ПОСИЛАННЯ */
+        .toggle-link { 
+            color: #555; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            display: block; 
+            font-size: 14px; 
+        }
+        .toggle-link span { color: #d32f2f; text-decoration: underline; font-weight: bold; }
+        
+        .error { 
+            color: #d32f2f; 
+            background: #ffebee; 
+            padding: 12px; 
+            border-radius: 4px; 
+            margin-bottom: 15px; 
+            border-left: 4px solid #d32f2f;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .icon { font-size: 1.2em; }
     </style>
+    
     <script>
-        function showPatientInput() {
-            document.getElementById('patient-form').classList.remove('hidden');
-            document.getElementById('main-buttons').classList.add('hidden');
+        function showRole(role) {
+            document.getElementById('doctor-panel').style.display = (role === 'doctor') ? 'block' : 'none';
+            document.getElementById('patient-panel').style.display = (role === 'patient') ? 'block' : 'none';
+            document.getElementById('tab-doc').classList.toggle('active', role === 'doctor');
+            document.getElementById('tab-pat').classList.toggle('active', role === 'patient');
+        }
+
+        function toggleAuth(role, mode) {
+            let formLogin = document.getElementById(role + '-login');
+            let formRegister = document.getElementById(role + '-register');
+            let link = document.getElementById(role + '-link');
+
+            if (mode === 'register') {
+                formLogin.style.display = 'none';
+                formRegister.style.display = 'block';
+                link.innerHTML = "Вже маєте акаунт? <span onclick=\"toggleAuth('" + role + "', 'login')\">Увійти</span>";
+            } else {
+                formLogin.style.display = 'block';
+                formRegister.style.display = 'none';
+                link.innerHTML = "Немає акаунту? <span onclick=\"toggleAuth('" + role + "', 'register')\">Зареєструватися</span>";
+            }
         }
     </script>
 </head>
 <body>
     <div class="card">
-        <h1>🏥 MedSystem</h1>
-        
-        <div id="main-buttons">
-            <p>Виберіть спосіб входу:</p>
-            <form action="/" method="POST">
-                <input type="hidden" name="role" value="doctor">
-                <input type="hidden" name="name" value="Dr. House"> <button type="submit" class="btn btn-doc">👨‍⚕️ Увійти як Лікар</button>
-            </form>
+        <h1>🏥 Медична Система</h1>
 
-            <button onclick="showPatientInput()" class="btn btn-pat">👤 Увійти як Пацієнт</button>
+        {% if error %}
+        <div class="error">⚠️ {{ error }}</div>
+        {% endif %}
+
+        <div class="tabs">
+            <button id="tab-doc" class="tab-btn active" onclick="showRole('doctor')">👨‍⚕️ Лікар</button>
+            <button id="tab-pat" class="tab-btn" onclick="showRole('patient')">👤 Пацієнт</button>
         </div>
 
-        <div id="patient-form" class="hidden">
-            <p>Введіть Ваше ім'я:</p>
-            <form action="/" method="POST">
-                <input type="hidden" name="role" value="patient">
-                <input type="text" name="name" placeholder="Наприклад: Fiona" required>
-                <button type="submit" class="btn btn-pat">Увійти</button>
-            </form>
-            <br>
-            <a href="/" style="color: #999; text-decoration: none;">Назад</a>
+        <div id="doctor-panel">
+            <div id="doctor-login">
+                <form action="/" method="POST">
+                    <input type="hidden" name="role" value="doctor">
+                    <input type="hidden" name="action" value="login">
+                    <input type="text" name="name" placeholder="Прізвище та Ім'я" required>
+                    <input type="password" name="password" placeholder="Пароль (4 цифри)" required maxlength="4">
+                    <button type="submit" class="btn btn-primary">Увійти в систему <span class="icon">➜</span></button>
+                </form>
+            </div>
+
+            <div id="doctor-register" style="display:none;">
+                <form action="/" method="POST">
+                    <input type="hidden" name="role" value="doctor">
+                    <input type="hidden" name="action" value="register">
+                    <input type="text" name="name" placeholder="Прізвище та Ім'я (напр. Петренко Іван)" required>
+                    <input type="text" name="spec" placeholder="Спеціальність" required>
+                    <select name="shift">
+                        <option value="1">Зміна 1 (08:00 - 14:00)</option>
+                        <option value="2">Зміна 2 (14:00 - 20:00)</option>
+                    </select>
+                    <input type="password" name="password" placeholder="Створіть пароль (4 цифри)" required maxlength="4" pattern="\d{4}" title="4 цифри">
+                    <input type="password" name="confirm_password" placeholder="Повторіть пароль" required>
+                    
+                    <button type="submit" class="btn btn-primary">Зареєструватися <span class="icon">✅</span></button>
+                </form>
+            </div>
+            
+            <div class="toggle-link" id="doctor-link">
+                Немає акаунту? <span onclick="toggleAuth('doctor', 'register')">Зареєструватися</span>
+            </div>
         </div>
+
+        <div id="patient-panel" style="display:none;">
+            <div id="patient-login">
+                <form action="/" method="POST">
+                    <input type="hidden" name="role" value="patient">
+                    <input type="hidden" name="action" value="login">
+                    <input type="text" name="name" placeholder="Прізвище та Ім'я" required>
+                    <input type="password" name="password" placeholder="Пароль (4 цифри)" required maxlength="4">
+                    <button type="submit" class="btn btn-primary">Увійти в кабінет <span class="icon">➜</span></button>
+                </form>
+            </div>
+
+            <div id="patient-register" style="display:none;">
+                <form action="/" method="POST">
+                    <input type="hidden" name="role" value="patient">
+                    <input type="hidden" name="action" value="register">
+                    <input type="text" name="name" placeholder="Прізвище та Ім'я (напр. Коваль Анна)" required>
+                    <input type="password" name="password" placeholder="Створіть пароль (4 цифри)" required maxlength="4" pattern="\d{4}" title="4 цифри">
+                    <input type="password" name="confirm_password" placeholder="Повторіть пароль" required>
+                    
+                    <button type="submit" class="btn btn-primary">Створити картку <span class="icon">✅</span></button>
+                </form>
+            </div>
+            
+            <div class="toggle-link" id="patient-link">
+                Вперше тут? <span onclick="toggleAuth('patient', 'register')">Створити картку</span>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

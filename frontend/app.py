@@ -12,7 +12,7 @@ DOCTORS_FILE = "frontend/doctors.json"
 PATIENTS_FILE = "frontend/patients.json"
 APPOINTMENTS_FILE = "frontend/appointments.json"
 
-# --- РОБОТА З ФАЙЛАМИ ---
+# РОБОТА З ФАЙЛАМИ 
 def load_json(file_path):
     if not os.path.exists(file_path): return []
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -48,7 +48,7 @@ def is_slot_taken(doc, d, t):
         if a['doctor_name'] == doc and a['date'] == d and a['time'] == t: return True
     return False
 
-# --- ВХІД / РЕЄСТРАЦІЯ ---
+# ВХІД / РЕЄСТРАЦІЯ 
 @app.route('/', methods=['GET', 'POST'])
 def login():
     error = None
@@ -106,7 +106,7 @@ def admin_dashboard():
     for p in load_json(PATIENTS_FILE): p['role']='patient'; users.append(p)
     return render_template('admin.html', users=users)
 
-# --- КАБІНЕТ ---
+# КАБІНЕТ
 @app.route('/dashboard')
 def dashboard():
     if 'role' not in session: return redirect(url_for('login'))
@@ -118,20 +118,19 @@ def dashboard():
     if selected_date_str < today_str: selected_date_str = today_str
     is_weekend = datetime.strptime(selected_date_str, "%Y-%m-%d").weekday() >= 5
 
-    # 2. Логіка Лікаря (Пошук пацієнта) - ОНОВЛЕНО
+   
     patient_search = request.args.get('patient_search', '').strip()
     patient_found = False
     error_msg = None
 
     if role == 'doctor' and patient_search:
-        # Перевірка: чи існує такий пацієнт? (Вимога 1)
         if user_exists(PATIENTS_FILE, patient_search):
             patient_found = True
         else:
             error_msg = "Пацієнта не знайдено! Перевірте ім'я."
-            patient_search = "" # Скидаємо пошук
+            patient_search = "" 
 
-    # 3. Історія (C++)
+    # 3. Історія 
     medical_records = []
     should_load = (role == 'patient') or (role == 'doctor' and patient_found)
 
@@ -152,11 +151,11 @@ def dashboard():
                     medical_records.append({'date': parts[0], 'doctor': parts[1], 'type': parts[2], 'details': parts[3]})
         except: pass
 
-    # 4. Логіка Пацієнта / Лікаря (Слоти)
+    
     all_doctors = load_json(DOCTORS_FILE)
     doctor_card = None
     
-    # Для лікаря: об'єкт самого себе (щоб знайти слоти для запису пацієнта) - ВИМОГА 3
+    
     current_doc_obj = None
     if role == 'doctor':
         for d in all_doctors:
@@ -188,17 +187,17 @@ def dashboard():
                            is_weekend=is_weekend, error=error_msg,
                            patient_search=patient_search) # Повертаємо пошук
 
-# --- ДОДАВАННЯ ---
+# ДОДАВАННЯ 
 @app.route('/add', methods=['POST'])
 def add_record():
     if 'role' not in session: return redirect(url_for('login'))
     type_rec = request.form.get('type')
     
-    # 1. ЗАПИС НА ПРИЙОМ (Вимога 3: Лікар теж може це робити)
+    # 1. ЗАПИС НА ПРИЙОМ 
     if type_rec == 'appointment':
         doc = request.form.get('doctor')
-        pat = request.form.get('patient') # Може прийти від лікаря
-        if not pat: pat = session['user_name'] # Якщо це пацієнт, беремо себе
+        pat = request.form.get('patient') 
+        if not pat: pat = session['user_name']
         
         d, t = request.form.get('date'), request.form.get('time')
         
@@ -210,19 +209,18 @@ def add_record():
         
         subprocess.run([BACKEND_PATH, "add", doc, pat, f"{d} {t}"])
         
-        # Якщо це робив лікар, повертаємо його на пацієнта (Вимога 1)
+        
         if session['role'] == 'doctor':
             return redirect(url_for('dashboard', patient_search=pat))
 
-    # 2. РЕЦЕПТ (Вимога 2)
+    # 2. РЕЦЕПТ 
     elif type_rec == 'prescription':
         pat = request.form.get('patient')
         date_val = datetime.now().strftime("%Y-%m-%d")
         full_med = request.form.get('med') 
-        # C++ чекає: P Doc Pat Med Dose Date. Ми передаємо Med+Dose як один рядок, тому Dose = " "
         subprocess.run([BACKEND_PATH, "add", "P", session['user_name'], pat, full_med, " ", date_val])
         
-        return redirect(url_for('dashboard', patient_search=pat)) # Не скидаємо!
+        return redirect(url_for('dashboard', patient_search=pat)) 
 
     # 3. НАПРАВЛЕННЯ
     elif type_rec == 'referral':
@@ -230,7 +228,7 @@ def add_record():
         date_val = datetime.now().strftime("%Y-%m-%d")
         subprocess.run([BACKEND_PATH, "add", "R", session['user_name'], pat, request.form.get('target_spec'), date_val])
         
-        return redirect(url_for('dashboard', patient_search=pat)) # Не скидаємо!
+        return redirect(url_for('dashboard', patient_search=pat)) 
 
     return redirect(url_for('dashboard'))
 

@@ -1,6 +1,5 @@
 #include "Doctor.h"
 
-// Дані, які  дали, і запис їх у "пам'ять" об'єкта
 Doctor::Doctor(int inputId, std::string inputName, std::string inputSpecialization) {
     id = inputId;
     name = inputName;

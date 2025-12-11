@@ -14,7 +14,7 @@ private:
 public:
     Doctor(int id, std::string name, std::string specialization);
 
-    std::string getInfo(); // Повертає текст з інформацією про лікаря
+    std::string getInfo(); 
     std::string getName();
 };
 

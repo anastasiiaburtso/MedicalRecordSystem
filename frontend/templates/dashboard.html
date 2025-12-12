@@ -179,7 +179,7 @@
                     <input type="hidden" name="patient" value="{{ patient_search }}">
                     <b style="color:#d32f2f; font-size:18px;">💊 Виписати рецепт</b><br><br>
                     <input type="text" name="med" placeholder="Назва ліків та дозування" required style="width:100%; margin-bottom:10px;">
-                    <button type="submit" class="btn btn-green" style="width:100%">Зберегти ✅</button>
+                    <button type="submit" class="btn btn-green" style="width:100%">Зберегти </button>
                 </form>
                 
                 <form action="/add" method="POST" style="flex:1; background:#e3f2fd; padding:20px; border:1px solid #bbdefb; border-radius:6px;">
@@ -223,7 +223,7 @@
 
             <div style="margin-top: 40px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h3>📂 Історія хвороби пацієнта</h3>
+                    <h3>📂 Медична картка пацієнта</h3>
                     <div>
                         <span style="color:#777; margin-right:10px;">Сортувати:</span>
                         <a href="{{ url_for('dashboard', patient_search=patient_search, sort='asc') }}" style="text-decoration:none;"><button class="btn btn-gray">⬆️ Старі</button></a>
